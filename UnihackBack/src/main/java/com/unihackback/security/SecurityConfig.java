@@ -50,6 +50,7 @@ public class SecurityConfig {
 //                response.setStatus(200);
 //                String json=mapper.writeValueAsString(responseBody);
 //                response.setStatus(HttpServletResponse.SC_FOUND);
+                System.out.println(json);
                 response.setStatus(202);
             }
         }).failureHandler(new AuthenticationFailureHandler() {
@@ -65,11 +66,13 @@ public class SecurityConfig {
 //                        String json=mapper.writeValueAsString(responseBody);
 //                        response.getWriter().write(json);
 //                        response.getWriter().write("proba");
+//                        System.out.println();
                         User user=new User();
                         ObjectMapper mapper=new ObjectMapper();
                         String json=mapper.writeValueAsString(user);
                         response.setStatus(202);
                         response.getWriter().write(json);
+                        System.out.println(json);
                     }
                 }));
 

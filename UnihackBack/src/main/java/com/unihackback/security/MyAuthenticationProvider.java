@@ -32,6 +32,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         String password=authentication.getCredentials().toString();
 //        password=UserService.hashPassword(password);
         User user=userService.validateUser(email,password,userRepository);
+        System.out.println(user.toString());
         if (user!=null)       //return new UsernamePasswordAuthenticationToken(username,password,new ArrayList<>());
         {
             String[] roles = user.getRoles().split("_");
