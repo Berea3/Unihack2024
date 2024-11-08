@@ -36,12 +36,6 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests(config -> config
                 .requestMatchers("/security/unauthenticated").permitAll()   // this works without logging in, for example for sign up
-                .requestMatchers("/portfolio").permitAll()     // this is for sockets
-                .requestMatchers("/theatres/getAll").permitAll()
-                .requestMatchers("/theatres/getById/{id}").permitAll()
-                .requestMatchers("/theatres/read/attachment/{id}").permitAll()
-                .requestMatchers("/security/sign-up").permitAll()
-                .requestMatchers("/security/admin").hasAuthority("admin")
                 .requestMatchers("/theatres/create").hasAuthority("organizer")
                 .requestMatchers("/sendEmail").permitAll()
                 .anyRequest().authenticated());
@@ -109,57 +103,11 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-//    @Autowired
-//    private RememberMeProvider rememberMeProvider;
-
     @Autowired
     private MyAuthenticationProvider authenticationProvider;
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
-
-//    @Bean
-//    RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
-//        TokenBasedRememberMeServices.RememberMeTokenAlgorithm encodingAlgorithm = TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256;
-//        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices(myKey, userDetailsService, encodingAlgorithm);
-//        rememberMe.setMatchingAlgorithm(TokenBasedRememberMeServices.RememberMeTokenAlgorithm.MD5);
-//        return rememberMe;
-//    }
-
-//    @Bean
-//    public UserDetailsManager userDetailsManager(DataSource dataSource)
-//    {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
-
-//    @Bean
-//    UserDetailsManager users(DataSource dataSource) {
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password("{noop}1234")
-//                .roles("USER")
-//                .build();
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password("{noop}Berea2003")
-//                .roles("USER", "ADMIN")
-//                .build();
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.createUser(user);
-//        users.createUser(admin);
-//        return users;
-//    }
-
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsManager()
-//    {
-//        UserDetails pers1= User.builder()
-//                .username("berean5")
-//                .password("{noop}1234")
-//                .roles("dev")
-//                .build();
-//        return new InMemoryUserDetailsManager(pers1);
-//    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource()
