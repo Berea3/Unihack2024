@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import * as Http from 'node:http';
+import {Router} from "@angular/router";
 import {HttpClient} from '@angular/common/http';
-import {Router} from 'express';
 import {User} from '../../entities/user';
 
 @Component({
@@ -25,7 +25,7 @@ export class AuthenticationComponent {
     password: string;
     user: User;
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient) {}
 
     toggleForm() {
         this.isLoginForm = !this.isLoginForm;

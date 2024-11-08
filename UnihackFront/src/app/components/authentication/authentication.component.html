@@ -1,21 +1,21 @@
 <div class="w-full h-screen flex items-center justify-center">
     <div *ngIf="isLoginForm">
-        <form class="form">
+        <form class="form" name="jnasfka">
             <p class="heading">Login</p>
             <input class="input" placeholder="Username" type="text" ngModel="" >
             <input class="input" placeholder="Password" type="password">
-            <button class="btn" (click)="login()"><p class="text-neutral">Submit</p></button>
-            <button type="button" class="btn" (click)="toggleForm()"><p class = "text-neutral">Switch to Signup</p></button>
+<!--            <button class="btn" (click)="login()"><p class="text-neutral">Submit</p></button>-->
+<!--            <button type="button" class="btn" (click)="toggleForm()"><p class = "text-neutral">Switch to Signup</p></button>-->
         </form>
     </div>
     <div *ngIf="!isLoginForm">
-        <form class="form">
+        <form class="form" name="dfcmskdn">
             <p class="heading">Signup</p>
             <input class="input" placeholder="Username" type="text">
             <input class="input" placeholder="Email" type="email">
             <input class="input" placeholder="Password" type="password">
             <button class="btn"><p class="text-neutral">Submit</p></button>
-            <button type="button" class="btn " (click)="toggleForm()"><p class="text-neutral">Switch to Login</p></button>
+<!--            <button type="button" class="btn " (click)="toggleForm()"><p class="text-neutral">Switch to Login</p></button>-->
         </form>
     </div>
 </div>

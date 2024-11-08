@@ -35,8 +35,7 @@ public class SecurityController {
 
 
     @PostMapping("/security/sign-up")
-    public String securitySignUp(@RequestBody User user)
-    {
+    public Map<String, Object> securitySignUp(@RequestBody User user) throws JsonProcessingException {
         if (!UserService.userExists(user.getEmail(),userRepository))
         {
             user.setId(Generator.generateId());
@@ -44,11 +43,18 @@ public class SecurityController {
             String salt= BCrypt.gensalt();
             user.setPassword(BCrypt.hashpw(user.getPassword(),salt));
             userRepository.save(user);
-            return "user added";
+
+            Map<String, Object> responseBody=new HashMap<>();
+            responseBody.put("user","added");
+            return responseBody;
         }
         else
         {
-            return "user already exists";
+            Map<String, Object> responseBody=new HashMap<>();
+            responseBody.put("user","not added");
+            return responseBody;
+
+//            return "user already exists";
         }
     }
 }
