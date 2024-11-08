@@ -7,9 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -33,7 +37,7 @@ public class Case {
     private String caseCategory;
 
     @Column(name = "case_date")
-    private String caseDate;
+    private LocalDate caseDate;
 
     @Column(name = "case_result")
     private String caseResult;
@@ -42,7 +46,11 @@ public class Case {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Report> reports;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "user_id", referencedColumnName = "id")  // Ensure the user column matches the foreign key
-    private User user;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(
+            name = "LinkedCases",
+            joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
+    private List<User> users;
 }
