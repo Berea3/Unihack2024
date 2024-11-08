@@ -1,5 +1,6 @@
 package com.unihackback.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -24,5 +25,10 @@ public class Report {
 
     @Column(name = "report_date")
     private LocalDate reportDate;
+
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="case_id", referencedColumnName = "id")
+    private Case parentCase;
 
 }

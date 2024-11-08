@@ -21,8 +21,8 @@ public class Case {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "case_id")
-    private String caseId;
+//    @Column(name = "case_id")
+    private String id;
 
     @Column(name = "case_name")
     private String caseName;
@@ -42,14 +42,19 @@ public class Case {
     @Column(name = "case_result")
     String caseResult;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "report_id", referencedColumnName = "case_id", insertable = false, updatable = false)
-    List<Report> Reports;
+//    @JsonIgnore
+//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+//    private List<Report> reports;
+
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "case_id", referencedColumnName = "id", insertable = false, updatable = false)
-    User user;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Report> reports;
+
+
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
 
 }

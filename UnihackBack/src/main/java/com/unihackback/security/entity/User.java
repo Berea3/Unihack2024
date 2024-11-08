@@ -1,5 +1,6 @@
 package com.unihackback.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unihackback.entity.Case;
 import jakarta.persistence.*;
 
@@ -51,8 +52,12 @@ public class User {
                 '}';
     }
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    List<Case> cases;
+//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+//    List<Case> cases;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Case> apps;
 
     public String getId() {return this.id;}
     public String getPassword() {return this.password;}
