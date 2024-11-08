@@ -1,8 +1,9 @@
 package com.unihackback.security.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.unihackback.entity.Case;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class User {
@@ -49,6 +50,9 @@ public class User {
 //                ", roles=" + roles +
                 '}';
     }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    List<Case> cases;
 
     public String getId() {return this.id;}
     public String getPassword() {return this.password;}
