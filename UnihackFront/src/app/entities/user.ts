@@ -7,5 +7,5 @@ export class User{
     password: String;
     roles: String;
 
-    cases: Case[]=[];
+    cases?: Case[]=[];
 }

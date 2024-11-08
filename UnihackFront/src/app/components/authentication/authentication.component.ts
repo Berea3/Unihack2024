@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import * as Http from 'node:http';
-import {Router} from "@angular/router";
 import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 import {User} from '../../entities/user';
 
 @Component({
@@ -20,10 +19,7 @@ export class AuthenticationComponent {
 
     isLoginForm = true;
 
-    email: string;
-    username: string;
-    password: string;
-    user: User;
+    user: User = { email: '', password: '', id: '', roles: '', cases: undefined }; // Initialize user object
 
     constructor(private http: HttpClient) {}
 
@@ -33,10 +29,7 @@ export class AuthenticationComponent {
 
     login(){
         const formData : FormData=new FormData();
-        formData.append('username',this.email);
-        formData.append('password',this.password);
-        formData.append('rememberMe',"true");
-        this.http.post('http://localhost:1443/login',formData).subscribe(
+        this.http.post('http://localhost:1443/login', this.user).subscribe(
             (response: any)=>{
                 console.log()
                 this.user=response;
@@ -53,4 +46,17 @@ export class AuthenticationComponent {
         );
     }
 
+    signup(){
+
+        this.http.post('http://localhost:1443/security/sign-up', this.user).subscribe(
+            (response: any)=>{
+                console.log(response);
+                this.user=response;
+                console.log(this.user);
+
+                sessionStorage.setItem("id",this.user.id.toString());
+                sessionStorage.setItem("roles",this.user.roles.toString());
+            }
+        );
+    }
 }
