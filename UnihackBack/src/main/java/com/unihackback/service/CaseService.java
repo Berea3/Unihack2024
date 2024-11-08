@@ -5,6 +5,7 @@ import com.unihackback.repository.CaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,7 +48,8 @@ public class CaseService {
         return "Case updated";
     }
 
-//    public Case getCasesByDoctor(String doctorId) {
-//        return caseRepository.findByDoctorId(doctorId);
-//    }
+    public List<Case> getCasesByDoctor(String doctorId) {
+        return caseRepository.findAllByDoctorId(doctorId);
+    }
+
 }
