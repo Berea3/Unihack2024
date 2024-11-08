@@ -1,21 +1,32 @@
-<div class="w-full h-screen flex items-center justify-center">
-    <div *ngIf="isLoginForm">
-        <form class="form" name = "form">
-            <p class="heading">Login</p>
-            <input class="input" placeholder="Email" type="email" [(ngModel)]="user.email" name="email" >
-            <input class="input" placeholder="Password" type="password" [(ngModel)]="user.password" name="password" >
-            <button class="btn" (click)="login()"><p class="text-neutral">Submit</p></button>
-            <button type="button" class="btn" (click)="toggleForm()"><p class = "text-neutral">Switch to Signup</p></button>
-        </form>
-    </div>
-    <div *ngIf="!isLoginForm">
-        <form class="form" name="form">
-            <p class="heading">Signup</p>
-            <input class="input" placeholder="Email" type="email" [(ngModel)]="user.email" name="username">
-            <input class="input" placeholder="Password" type="password" [(ngModel)]="user.password" name="password">
-            <button class="btn"><p class="text-neutral" (click)="signup()">Submit</p></button>
-            <button type="button" class="btn " (click)="toggleForm()"><p class="text-neutral">Switch to Login</p></button>
-        </form>
+<div class="w-full h-screen flex overflow-hidden relative">
+
+
+    <canvas #canvas3d class="w-2/5 h-full absolute"></canvas>
+
+    <h1 class="text-white text-6xl font-extrabold leading-tight absolute left-0 top-1/4 transform -translate-y-1/4 pl-12 pr-8">
+        Your health<br>is cared for.
+    </h1>
+
+    <div class="absolute right-0 top-0 w-2/5 h-full flex items-center justify-center">
+        <div *ngIf="isLoginForm">
+            <form class="form p-10" name="form">
+                <p class="heading">Login</p>
+                <input class="input" placeholder="Email" type="email" [(ngModel)]="user.email" name="email">
+                <input class="input" placeholder="Password" type="password" [(ngModel)]="user.password" name="password">
+                <button class="btn" (click)="login()"><p class="text-neutral">Submit</p></button>
+                <button type="button" class="btn" (click)="toggleForm()"><p class="text-neutral">Switch to Signup</p>
+                </button>
+            </form>
+        </div>
+        <div *ngIf="!isLoginForm">
+            <form class="form p-10" name="form">
+                <p class="heading">Signup</p>
+                <input class="input" placeholder="Email" type="email" [(ngModel)]="user.email" name="email">
+                <input class="input" placeholder="Password" type="password" [(ngModel)]="user.password" name="password">
+                <button class="btn text-neutral" (click)="signup()">Submit</button>
+                <button type="button" class="btn" (click)="toggleForm()"><p class="text-neutral">Switch to Login</p>
+                </button>
+            </form>
+        </div>
     </div>
 </div>
-
