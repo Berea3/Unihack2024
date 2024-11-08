@@ -1,4 +1,4 @@
-package com.unihackback.Entity.generator;
+package com.unihackback.entity.generator;
 
 import java.time.LocalTime;
 import java.util.Random;
