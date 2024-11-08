@@ -2,19 +2,27 @@ package com.unihackback.service;
 
 import com.unihackback.entity.Case;
 import com.unihackback.repository.CaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CaseService {
 
     CaseRepository caseRepository;
 
+    @Autowired
     public CaseService(CaseRepository caseRepository) {
         this.caseRepository = caseRepository;
     }
 
-    public void getCaseById(String caseId) {
-        caseRepository.findById(caseId);
+    public Case getCaseById(String caseId) {
+
+        Optional<Case> caseOptional = caseRepository.findById(caseId);
+
+        return caseOptional.orElse(null);
+
     }
 
     public void getAllCases() {
@@ -37,5 +45,9 @@ public class CaseService {
         caseRepository.save(caseToUpdate);
 
         return "Case updated";
+    }
+
+    public Case getCasesByDoctor(String doctorId) {
+        return caseRepository.findByDoctorId(doctorId);
     }
 }
