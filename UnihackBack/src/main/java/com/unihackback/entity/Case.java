@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cases")
 public class Case {

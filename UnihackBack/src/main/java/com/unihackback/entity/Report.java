@@ -2,8 +2,13 @@ package com.unihackback.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Report {
 
