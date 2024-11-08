@@ -41,11 +41,16 @@ export class AuthenticationComponent implements  OnInit{
 
     toggleForm() {
         this.isLoginForm = !this.isLoginForm;
+        this.user = { email: '', password: '', id: '', roles: '', cases: undefined }; // Reset user object
     }
 
     login(){
         const formData : FormData=new FormData();
-        this.http.post('http://localhost:1443/login', this.user).subscribe(
+
+        formData.append('username',this.user.email.toString());
+        formData.append('password',this.user.password.toString());
+
+        this.http.post('http://localhost:1443/login', formData).subscribe(
             (response: any)=>{
                 console.log()
                 this.user=response;
@@ -69,6 +74,9 @@ export class AuthenticationComponent implements  OnInit{
 
         this.http.post('http://localhost:1443/security/sign-up', this.user).subscribe(
             (response: any)=>{
+                alert("User created successfully");
+
+                console.log(response);
 
                 sessionStorage.setItem("id",this.user.id.toString());
                 sessionStorage.setItem("roles",this.user.roles.toString());

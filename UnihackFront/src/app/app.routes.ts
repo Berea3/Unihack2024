@@ -4,5 +4,5 @@ import {ClientDashboardComponent} from './components/pages/client-dashboard/clie
 
 export const routes: Routes = [
     { path: '', component: AuthenticationComponent },
-    { path: 'client-dashboard', component: ClientDashboardComponent }
+    { path: 'dashboard', component: ClientDashboardComponent }
 ];
