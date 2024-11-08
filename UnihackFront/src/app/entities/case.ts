@@ -7,7 +7,7 @@ export class Case{
     caseDescription: String;
     caseStatus: String;
     caseCategory: String;
-    caseDate: String;
+    caseDate: Date;
     caseResult: String;
 
 
