@@ -2,9 +2,10 @@ package com.unihackback.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tickets.security.entities.User;
-import com.tickets.security.entities.UserRepository;
-import com.tickets.security.entities.UserService;
+
+import com.unihackback.security.entity.User;
+import com.unihackback.security.entity.UserRepository;
+import com.unihackback.security.entity.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,48 +25,6 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     private UserRepository userRepository;
 
     private UserService userService=new UserService();
-
-//    @Override
-//    public Authentication authenticate(Authentication authentication) throws AuthenticationException
-//    {
-//        String username=authentication.getName();
-//        String password=authentication.getCredentials().toString();
-////        System.out.println(userRepository.count());
-//        User user=userService.validateUser(username,password,userRepository);
-//
-////        Map<String, Object> responseBody=new HashMap<>();
-////        responseBody.put("username",username);
-////        ObjectMapper mapper=new ObjectMapper();
-////        String json=mapper.writeValueAsString(user);
-//        if (user!=null) //return new UsernamePasswordAuthenticationToken(username,password,new ArrayList<>());
-//        {
-////            Map<String, Object> responseBody=new HashMap<>();
-////            responseBody.put("username",username);
-////            ArrayList<String> roles=new ArrayList<>();
-////            roles= (ArrayList<String>) user.getRoles();
-////            System.out.println(/user.getRoles().toString());
-//            List<String> roles = user.getRoles();
-//            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-//
-//            for (String role : roles) {
-//                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
-//                grantedAuthorities.add(grantedAuthority);
-//            }
-//
-////            return grantedAuthorities;
-//            ObjectMapper mapper=new ObjectMapper();
-//            try {
-//                String json=mapper.writeValueAsString(user);
-//                return new UsernamePasswordAuthenticationToken(json,password,new ArrayList<>(grantedAuthorities));  //new ArrayList<>() grantedAuthorities
-//            } catch (JsonProcessingException e) {
-//                throw new RuntimeException(e);
-//            }
-////            return new UsernamePasswordAuthenticationToken(username,password,new ArrayList<>());
-//        }
-////        if (user!=null) return new UsernamePasswordAuthenticationToken(username,password,new ArrayList<>());
-//        else throw new BadCredentialsException("Bad credentials");
-//    }
-
     @Override
     public Authentication authenticate(Authentication authentication)
     {

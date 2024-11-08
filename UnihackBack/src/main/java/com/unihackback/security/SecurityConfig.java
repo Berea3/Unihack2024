@@ -1,7 +1,7 @@
 package com.unihackback.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tickets.security.entities.User;
+import com.unihackback.security.entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -95,7 +95,6 @@ public class SecurityConfig {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         httpSecurity.csrf(csrf -> csrf.disable());
 
-        httpSecurity.rememberMe(rememberMe -> rememberMe.rememberMeParameter("rememberMe").userDetailsService(myUserDetailsService).alwaysRemember(true));
 
 //        httpSecurity.rememberMe(rememberMeConfigurer -> rememberMeConfigurer)
 
@@ -104,9 +103,6 @@ public class SecurityConfig {
 
     @Autowired
     private MyAuthenticationProvider authenticationProvider;
-
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
 
     @Bean
     CorsConfigurationSource corsConfigurationSource()
