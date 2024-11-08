@@ -26,4 +26,11 @@ public class ReportService {
         return reportRepository.findAll();
     }
 
+    public List<Report> getReportsByCase(String caseId) {
+        return reportRepository.findByCaseId(caseId);
+    }
+
+    public void saveReport(Report report) {
+        reportRepository.save(report);
+    }
 }

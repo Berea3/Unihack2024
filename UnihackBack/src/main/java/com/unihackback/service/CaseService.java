@@ -47,8 +47,7 @@ public class CaseService {
         return "Case updated";
     }
 
-    public Case getCasesByDoctor(String doctorId) {
+//    public Case getCasesByDoctor(String doctorId) {
 //        return caseRepository.findByDoctorId(doctorId);
-    return null;
-    }
+//    }
 }
