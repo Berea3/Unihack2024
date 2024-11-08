@@ -5,7 +5,6 @@ import com.unihackback.entity.Case;
 import jakarta.persistence.*;
 
 import java.util.List;
-
 @Entity
 public class User {
 
@@ -57,7 +56,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    private List<Case> apps;
+    private List<Case> cases;
 
     public String getId() {return this.id;}
     public String getPassword() {return this.password;}

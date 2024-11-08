@@ -2,10 +2,10 @@ package com.unihackback.controller;
 
 import com.unihackback.entity.Case;
 import com.unihackback.service.CaseService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller(value = "/case")
+@RestController(value = "/case")
 public class CaseController {
 
     private final CaseService caseService;

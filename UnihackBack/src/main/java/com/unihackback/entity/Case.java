@@ -1,6 +1,5 @@
 package com.unihackback.entity;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unihackback.security.entity.User;
 import jakarta.persistence.*;
@@ -11,17 +10,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "case")
+@Table(name = "cases")
 public class Case {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "case_id")
+    @Column(name = "id")  // Primary key as String
     private String id;
 
     @Column(name = "case_name")
@@ -40,21 +34,13 @@ public class Case {
     private String caseDate;
 
     @Column(name = "case_result")
-    String caseResult;
-
-//    @JsonIgnore
-//    @OneToMany(fetch = FetchType.EAGER,mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-//    private List<Report> reports;
-
+    private String caseResult;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Report> reports;
 
-
-    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name="user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")  // Ensure the user column matches the foreign key
     private User user;
-
 }
