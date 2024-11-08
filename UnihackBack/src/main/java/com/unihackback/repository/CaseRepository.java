@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CaseRepository extends JpaRepository<Case, String> {
 
-    @Query("SELECT c FROM Case c WHERE c.doctor_id = ?1")
-    Case findByDoctorId(String doctorId);
+//    @Query("SELECT c FROM Case c WHERE c.doctor_id = ?1")
+//    Case findByDoctorId(String doctorId);
 }

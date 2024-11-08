@@ -48,6 +48,7 @@ public class CaseService {
     }
 
     public Case getCasesByDoctor(String doctorId) {
-        return caseRepository.findByDoctorId(doctorId);
+//        return caseRepository.findByDoctorId(doctorId);
+    return null;
     }
 }

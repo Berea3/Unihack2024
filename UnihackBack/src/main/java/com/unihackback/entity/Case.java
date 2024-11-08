@@ -44,12 +44,12 @@ public class Case {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "report_id", referencedColumnName = "case_id")
+    @JoinColumn(name = "report_id", referencedColumnName = "case_id", insertable = false, updatable = false)
     List<Report> Reports;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "case_id")
+    @JoinColumn(name = "case_id", referencedColumnName = "id", insertable = false, updatable = false)
     User user;
 
 }
