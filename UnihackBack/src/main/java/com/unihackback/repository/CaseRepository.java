@@ -16,7 +16,4 @@ public interface CaseRepository extends JpaRepository<Case, String> {
     @Query("SELECT distinct c FROM Case c JOIN c.users u WHERE u.id = :id")
     List<Case> findByPatientId(String id);
 
-//    @Query("SELECT c FROM c c WHERE c. = ?1")
-//    Case findByDoctorId(String doctorId);
-
 }

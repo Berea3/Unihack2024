@@ -1,6 +1,7 @@
 package com.unihackback.controller;
 
 import com.unihackback.entity.Case;
+import com.unihackback.entity.generator.Generator;
 import com.unihackback.service.CaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,9 @@ public class CaseController {
         return caseService.getCasesByDoctor(userId);
     }
 
-    @PostMapping(value = "/case", consumes = "application/json")
-    public ResponseEntity<String> saveCase(@RequestBody Case caseObj) {
+    @PostMapping( value = "/add-case", consumes = "application/json")
+    public void saveCase(@RequestBody Case caseObj) {
+        caseObj.setId(Generator.generateId());
         caseService.saveCase(caseObj);
-        return ResponseEntity.ok("Case saved successfully");
     }
 }

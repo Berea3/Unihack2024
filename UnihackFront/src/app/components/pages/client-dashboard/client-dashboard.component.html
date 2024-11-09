@@ -28,6 +28,7 @@
                     <label class="block mb-2">Case Description:</label>
                     <textarea class="textarea textarea-bordered w-full" name="caseDescription" ngModel required></textarea>
                 </div>
+
                 <div class="py-4">
                     <label class="block mb-2">Case Category:</label>
                     <input type="text" class="input input-bordered w-full" name="caseCategory" ngModel required />
@@ -38,7 +39,7 @@
                 </div>
                 <div class="py-4">
                     <label class="block mb-2">Case Result:</label>
-                    <input type="text" class="input input-bordered w-full" name="caseResult" ngModel required />
+                    <input disabled type="text" class="input input-bordered w-full" name="caseResult" ngModel required />
                 </div>
                 <div class="modal-action">
                     <button type="submit" class="btn btn-primary">Add Case</button>
@@ -99,6 +100,39 @@
                     </ul>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-12">
+            <h2 class="text-3xl font-semibold mb-6">Your Cases</h2>
+
+            <div *ngIf="cases.length > 0; else noCases">
+                <div *ngFor="let case of cases" class="card bg-base-100 shadow-xl mb-4">
+                    <div class="card-body">
+                        <!-- Case Title -->
+                        <h3 class="card-title text-xl">{{ case.caseName }}</h3>
+
+                        <!-- Expandable Panel for Reports -->
+                        <details>
+                            <summary class="font-semibold text-primary cursor-pointer">View Reports</summary>
+                            <div class="mt-4 space-y-2">
+                                <div *ngIf="case.reports && case.reports.length > 0; else noReports">
+                                    <div *ngFor="let report of case.reports">
+                                        <p><span class="font-semibold">Date:</span> {{ report.reportDate }}</p>
+                                        <p><span class="font-semibold">Summary:</span> {{ report.reportDescription }}</p>
+                                        <div class="divider"></div>
+                                    </div>
+                                </div>
+                                <ng-template #noReports>
+                                    <p>No reports available for this case.</p>
+                                </ng-template>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <ng-template #noCases>
+                <p>No cases found.</p>
+            </ng-template>
         </div>
     </div>
 </div>
