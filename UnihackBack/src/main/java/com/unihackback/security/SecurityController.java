@@ -39,7 +39,7 @@ public class SecurityController {
         if (!UserService.userExists(user.getEmail(),userRepository))
         {
             user.setId(Generator.generateId());
-            user.setRoles("pacient");
+            user.setRoles("PATIENT");
             System.out.println(user.getId());
             String salt= BCrypt.gensalt();
             user.setPassword(BCrypt.hashpw(user.getPassword(),salt));

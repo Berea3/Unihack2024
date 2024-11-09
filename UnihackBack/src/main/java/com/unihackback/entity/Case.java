@@ -53,4 +53,13 @@ public class Case {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )
     private List<User> users;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    List<Appointment> appointments;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    List<Prescription> prescriptions;
+
 }

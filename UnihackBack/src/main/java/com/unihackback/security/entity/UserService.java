@@ -6,21 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-//    private UserRepository userRepository;
-
-//    public UserService(){}
-//    @Autowired
-//    public UserService(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-
     public User validateUser(String username, String password, UserRepository userRepository)
     {
-//        System.out.println(username);
-//        System.out.println(password);
-//        System.out.println(userRepository.count());
         User user=userRepository.findByUsername(username);
-//        System.out.println(user.getRoles().size());
         if (user!=null)
         {
             if (BCrypt.checkpw(password,user.getPassword())) return user;

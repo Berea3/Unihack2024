@@ -1,67 +1,76 @@
-<div class="w-full h-screen flex flex-col bg-gray-100 p-6">
-
-    <!-- Dashboard Header -->
-    <div class="text-3xl font-bold text-center text-gray-800 mb-8">
-        <h1>Welcome to Your Health Dashboard</h1>
-    </div>
-
-    <!-- Dashboard Content Row -->
-    <div class="flex justify-between gap-8">
-
-        <!-- User Details Card -->
-        <div class="bg-white p-6 rounded-lg shadow-lg w-2/5">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4">User Details</h3>
-            <p class="text-gray-600"><strong>Email:</strong> <span class="text-gray-800">userexample.com</span></p>
-            <p class="text-gray-600"><strong>Name:</strong> <span class="text-gray-800">John Doe</span></p>
-            <p class="text-gray-600"><strong>Phone:</strong> <span class="text-gray-800">(123) 456-7890</span></p>
-            <p class="text-gray-600"><strong>Member Since:</strong> <span class="text-gray-800">Jan 2020</span></p>
+<div class="min-h-screen bg-base-200  p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Dashboard Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-primary">Dashboard</h1>
         </div>
 
-        <!-- Latest Report Card -->
-        <div class="bg-white p-6 rounded-lg shadow-lg w-3/5">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4">Latest Health Report</h3>
-            <div class="flex items-center justify-between mb-4">
-                <div>
-                    <p class="text-gray-600"><strong>Date:</strong> <span class="text-gray-800">Nov 8, 2024</span></p>
-                    <p class="text-gray-600"><strong>Summary:</strong> <span class="text-gray-800">Stable health condition. No major concerns.</span></p>
+        <div class="flex flex-col lg:flex-row gap-8 mb-12">
+            <!-- User Details Card -->
+            <div class="card bg-base-100 shadow-xl w-full lg:w-2/5">
+                <div class="card-body">
+                    <h3 class="card-title text-2xl mb-4">User Details</h3>
+                    <div class="space-y-2">
+                        <p><span class="font-semibold">Email:</span> userexample.com</p>
+                        <p><span class="font-semibold">Name:</span> John Doe</p>
+                        <p><span class="font-semibold">Phone:</span> (123) 456-7890</p>
+                        <p><span class="font-semibold">Member Since:</span> Jan 2020</p>
+                    </div>
                 </div>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                    View Details
-                </button>
             </div>
-            <div class="border-t border-gray-300 pt-4">
-                <p class="text-gray-600"><strong>Next Appointment:</strong> <span class="text-gray-800">Nov 15, 2024</span></p>
+
+            <div class="card bg-base-100 shadow-xl w-full lg:w-3/5">
+                <div class="card-body">
+                    <h3 class="card-title text-2xl mb-4">Latest Health Report</h3>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                        <div>
+                            <p><span class="font-semibold">Date:</span> Nov 8, 2024</p>
+                            <p><span class="font-semibold">Summary:</span> Stable health condition. No major concerns.</p>
+                        </div>
+                        <button class="btn btn-primary mt-4 sm:mt-0">View Details</button>
+                    </div>
+                    <div class="divider"></div>
+                    <p><span class="font-semibold">Next Appointment:</span> Nov 15, 2024</p>
+                </div>
             </div>
         </div>
 
+        <!-- Additional Info Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Upcoming Appointments -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h3 class="card-title text-2xl mb-4">Upcoming Appointments</h3>
+                    <div class="space-y-2">
+                        <p><span class="font-semibold">Date:</span> Nov 15, 2024</p>
+                        <p><span class="font-semibold">Doctor:</span> Dr. Sarah Lee</p>
+                        <p><span class="font-semibold">Location:</span> Health Clinic, Room 202</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h3 class="card-title text-2xl mb-4">Recent Activity</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Blood pressure checked on Nov 3, 2024</li>
+                        <li>Prescription updated on Oct 25, 2024</li>
+                        <li>Follow-up scheduled on Nov 15, 2024</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Notifications or Alerts -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h3 class="card-title text-2xl mb-4">Notifications</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Your prescription for blood pressure medication is ready for pickup.</li>
+                        <li>Your annual health checkup is due next month.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Additional Info Section -->
-    <div class="mt-8 grid grid-cols-3 gap-8">
-
-        <!-- Upcoming Appointments -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4">Upcoming Appointments</h3>
-            <p class="text-gray-600"><strong>Date:</strong> <span class="text-gray-800">Nov 15, 2024</span></p>
-            <p class="text-gray-600"><strong>Doctor:</strong> <span class="text-gray-800">Dr. Sarah Lee</span></p>
-            <p class="text-gray-600"><strong>Location:</strong> <span class="text-gray-800">Health Clinic, Room 202</span></p>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4">Recent Activity</h3>
-            <p class="text-gray-600">- <span class="text-gray-800">Blood pressure checked on Nov 3, 2024</span></p>
-            <p class="text-gray-600">- <span class="text-gray-800">Prescription updated on Oct 25, 2024</span></p>
-            <p class="text-gray-600">- <span class="text-gray-800">Follow-up scheduled on Nov 15, 2024</span></p>
-        </div>
-
-        <!-- Notifications or Alerts -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4">Notifications</h3>
-            <p class="text-gray-600">- <span class="text-gray-800">Your prescription for blood pressure medication is ready for pickup.</span></p>
-            <p class="text-gray-600">- <span class="text-gray-800">Your annual health checkup is due next month.</span></p>
-        </div>
-
-    </div>
-
 </div>
