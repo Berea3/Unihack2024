@@ -2,85 +2,65 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from '../entities/user';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private loginUrl = 'http://localhost:1443/login';
-    private signUpUrl = 'http://localhost:1443/security/sign-up';
+    private currentUser: User | null = null;
 
-    currentUser: User | null = null;
+    constructor(private http: HttpClient, private router: Router) {
+        this.loadUserFromStorage();
+    }
 
-    constructor(private http: HttpClient, private router: Router) {}
-
-    // Log in the user
-    login(user: User): Observable<any> {
-        if(!user.email || !user.password) {
-            console.error('Invalid login credentials');
-            return of(null);
-        }
+    login(user: User): Observable<User> {
         const formData: FormData = new FormData();
-        formData.append('username', String(user.email));
-        formData.append('password', String(user.password));
+        formData.append('username', user.email as string);
+        formData.append('password', user.password as string);
 
-        return this.http.post(this.loginUrl, formData).pipe(
-            tap((response: any) => {
-                if (response?.id) {
-                    // Save session information to session storage
-                    sessionStorage.setItem('id', response.id.toString());
-                    sessionStorage.setItem('roles', response.roles.toString());
-
+        return this.http.post<User>('http://localhost:1443/login', formData).pipe(
+            tap((response: User) => {
+                if (response.id) {
                     this.currentUser = response;
+                    localStorage.setItem('user', JSON.stringify(response)); // Store user in localStorage
+                } else {
+                    alert("Invalid credentials");
                 }
-            }),
-            catchError(error => {
-                console.error('Login failed', error);
-                return of(null); // Return null on error
             })
         );
     }
 
-    // Sign up the user
-    signUp(user: User): Observable<any> {
-        return this.http.post(this.signUpUrl, user).pipe(
-            tap((response: any) => {
-                alert('User created successfully');
-                sessionStorage.setItem('id', response.id.toString());
-                sessionStorage.setItem('roles', response.roles.toString());
-            }),
-            catchError(error => {
-                console.error('Signup failed', error);
-                return of(null);
-            })
-        );
+    logout() {
+        this.currentUser = null;
+        localStorage.removeItem('user');
+        this.router.navigate(['login']);
     }
 
-    // Check if a user is logged in
     isLoggedIn(): boolean {
-        return !!sessionStorage.getItem('id');
-    }
-
-    // Get the user ID from session
-    getUserId(): string | null {
-        return sessionStorage.getItem('id');
+        return !!this.getUser();
     }
 
     getUser(): User | null {
-        return this.currentUser || JSON.parse(sessionStorage.getItem('user') || 'null');
+
+        let isLoggedOnBackend = 'no';
+
+        // this.http.get('http://localhost:1443/security').subscribe((response: any) => {
+        //     console.log('isLoggedOnBackend', response);
+        //     isLoggedOnBackend = response;
+        // });
+
+        // if (isLoggedOnBackend === 'yes') {
+        //     return this/**/.currentUser;
+        // }
+
+        // localStorage.clear();
+        return this.currentUser;
     }
 
-    // Get user roles from session
-    getUserRoles(): string | null {
-        return sessionStorage.getItem('roles');
-    }
-
-    // Log out the user
-    logout(): void {
-        sessionStorage.clear();
-        this.router.navigate(['/login']).then(() => console.log('User logged out'));
+    hasRole(role: string): boolean {
+        return this.getUser()?.roles === role;
     }
 
     private getRedirectPath(): string {
@@ -92,5 +72,27 @@ export class AuthService {
             default:
                 return 'dashboard';
         }
+    }
+
+    private loadUserFromStorage() {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            this.currentUser = JSON.parse(storedUser);
+        }
+    }
+
+    signUp(user: User) {
+
+        return this.http.post<User>('http://localhost:1443/security/sign-up', user).pipe(
+            tap((response: User) => {
+                if (response.id) {
+                    this.currentUser = response;
+                    localStorage.setItem('user', JSON.stringify(response)); // Store user in localStorage
+                } else {
+                    alert("Invalid credentials");
+                }
+            })
+        );
+
     }
 }

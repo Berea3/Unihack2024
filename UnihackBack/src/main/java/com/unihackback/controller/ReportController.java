@@ -36,6 +36,11 @@ public class ReportController {
         reportService.saveReport(report);
     }
 
+    @GetMapping(value = "/reports-by-patient/{id}", produces = "application/json")
+    public List<Report> getReportsByPatient(@PathVariable String id) {
+        return reportService.getReportsByPatient(id);
+    }
+
 //    @GetMapping(value = "/reports-by-doctor", produces = "application/json")
 //    public List<Report> getReportsByDoctor(String doctorId)
 //

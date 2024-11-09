@@ -2,13 +2,13 @@ package com.unihackback.controller;
 
 import com.unihackback.entity.Case;
 import com.unihackback.service.CaseService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "/case")
+@RestController
+@RequestMapping("/case")
 public class CaseController {
 
     private final CaseService caseService;
@@ -22,8 +22,14 @@ public class CaseController {
         return caseService.getCaseById(caseId);
     }
 
-    @GetMapping(value = "/cases-by-doctor/{doctorId}", produces = "application/json")
-    public List<Case> getCasesByDoctor(@PathVariable String doctorId) {
-        return caseService.getCasesByDoctor(doctorId);
+    @GetMapping(value = "/cases-by-doctor/{userId}", produces = "application/json")
+    public List<Case> getCasesByUserId(@PathVariable String userId) {
+        return caseService.getCasesByDoctor(userId);
+    }
+
+    @PostMapping(value = "/case", consumes = "application/json")
+    public ResponseEntity<String> saveCase(@RequestBody Case caseObj) {
+        caseService.saveCase(caseObj);
+        return ResponseEntity.ok("Case saved successfully");
     }
 }

@@ -12,4 +12,5 @@ public interface ReportRepository extends JpaRepository<Report, String> {
 
     @Query(value = "select report from Report report where report.parentCase = ?1")
     List<Report> findByCaseId(String caseId);
+
 }

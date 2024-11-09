@@ -7,18 +7,46 @@
 
         <div class="flex flex-col lg:flex-row gap-8 mb-12">
             <!-- User Details Card -->
-            <div class="card bg-base-100 shadow-xl w-full lg:w-2/5">
-                <div class="card-body">
-                    <h3 class="card-title text-2xl mb-4">User Details</h3>
-                    <div class="space-y-2">
-                        <p><span class="font-semibold">Email:</span> userexample.com</p>
-                        <p><span class="font-semibold">Name:</span> John Doe</p>
-                        <p><span class="font-semibold">Phone:</span> (123) 456-7890</p>
-                        <p><span class="font-semibold">Member Since:</span> Jan 2020</p>
-                    </div>
+<div class="card bg-base-100 shadow-xl w-full lg:w-2/5 relative">
+    <div class="card-body">
+        <h3 class="card-title text-2xl mb-4">User Details</h3>
+        <div class="space-y-2">
+            <p><span class="font-semibold">Email:</span> {{this.user?.email}}</p>
+        </div>
+    </div>
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn btn-primary absolute top-4 right-4" onclick="caseModal.showModal()">Add Case</button>
+    <dialog id="caseModal" class="modal">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold">Add New Case</h3>
+            <form #caseForm="ngForm" (ngSubmit)="addCase(caseForm)">
+                <div class="py-4">
+                    <label class="block mb-2">Case Name:</label>
+                    <input type="text" class="input input-bordered w-full" name="caseName" ngModel required />
                 </div>
-            </div>
-
+                <div class="py-4">
+                    <label class="block mb-2">Case Description:</label>
+                    <textarea class="textarea textarea-bordered w-full" name="caseDescription" ngModel required></textarea>
+                </div>
+                <div class="py-4">
+                    <label class="block mb-2">Case Category:</label>
+                    <input type="text" class="input input-bordered w-full" name="caseCategory" ngModel required />
+                </div>
+                <div class="py-4">
+                    <label class="block mb-2">Case Date:</label>
+                    <input type="date" class="input input-bordered w-full" name="caseDate" ngModel required />
+                </div>
+                <div class="py-4">
+                    <label class="block mb-2">Case Result:</label>
+                    <input type="text" class="input input-bordered w-full" name="caseResult" ngModel required />
+                </div>
+                <div class="modal-action">
+                    <button type="submit" class="btn btn-primary">Add Case</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+</div>
             <div class="card bg-base-100 shadow-xl w-full lg:w-3/5">
                 <div class="card-body">
                     <h3 class="card-title text-2xl mb-4">Latest Health Report</h3>

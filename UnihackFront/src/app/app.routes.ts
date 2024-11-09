@@ -7,4 +7,5 @@ export const routes: Routes = [
     { path: '', component: AuthenticationComponent },
     { path: 'login', component: AuthenticationComponent },
     { path: 'dashboard', component: ClientDashboardComponent, canActivate: [AuthGuard], data: { role: 'PATIENT' } }
+
 ];
