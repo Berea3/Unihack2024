@@ -38,6 +38,8 @@ public class SecurityConfig {
                 .requestMatchers("/security/unauthenticated").permitAll()   // this works without logging in, for example for sign up
                 .requestMatchers("/theatres/create").hasAuthority("organizer")
                 .requestMatchers("/security/sign-up").permitAll()
+                .requestMatchers("/sendEmail").permitAll()
+                .requestMatchers("/ai").permitAll()
                 .anyRequest().authenticated());
         httpSecurity.formLogin(form -> form.usernameParameter("username").passwordParameter("password").loginPage("/login")
                 .permitAll().successHandler(new AuthenticationSuccessHandler() {

@@ -1,0 +1,11 @@
+erdtfrgyuhiokpl
+<input type="text"
+       placeholder="Doctor"
+       aria-label="Doctor"
+       matInput
+       [matAutocomplete]="auto">
+<mat-autocomplete #auto="matAutocomplete">
+    @for (doctor of doctors; track doctor) {
+        <mat-option [value]="doctor">{{doctor}}</mat-option>
+    }
+</mat-autocomplete>

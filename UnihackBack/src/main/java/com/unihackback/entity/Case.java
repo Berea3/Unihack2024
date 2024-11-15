@@ -42,7 +42,18 @@ public class Case {
     @Column(name = "case_result")
     private String caseResult;
 
-    @JsonIgnore
+    public void addReport(Report report)
+    {
+        report.setParentCase(this);
+        this.reports.add(report);
+    }
+
+    public void addAppointment(Appointment appointment)
+    {
+        appointment.setParentCase(this);
+        this.appointments.add(appointment);
+    }
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Report> reports;
 
@@ -62,4 +73,20 @@ public class Case {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "parentCase", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     List<Prescription> prescriptions;
 
+    @Override
+    public String toString() {
+        return "Case{" +
+                "id='" + id + '\'' +
+                ", caseName='" + caseName + '\'' +
+                ", caseDescription='" + caseDescription + '\'' +
+                ", caseStatus='" + caseStatus + '\'' +
+                ", caseCategory='" + caseCategory + '\'' +
+                ", caseDate=" + caseDate +
+                ", caseResult='" + caseResult + '\'' +
+                ", reports=" + reports +
+                ", users=" + users +
+                ", appointments=" + appointments +
+                ", prescriptions=" + prescriptions +
+                '}';
+    }
 }

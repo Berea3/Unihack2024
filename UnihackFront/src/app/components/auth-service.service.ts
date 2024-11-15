@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class AuthService {
-    private currentUser: User | null = null;
+    private currentUser: User;
 
     constructor(private http: HttpClient, private router: Router) {
         this.loadUserFromStorage();
@@ -33,7 +33,6 @@ export class AuthService {
     }
 
     logout() {
-        this.currentUser = null;
         localStorage.removeItem('user');
         this.router.navigate(['login']);
     }
@@ -42,7 +41,7 @@ export class AuthService {
         return !!this.getUser();
     }
 
-    getUser(): User | null {
+    getUser(): User{
 
         let isLoggedOnBackend = 'no';
 
@@ -88,11 +87,8 @@ export class AuthService {
                 if (response.id) {
                     this.currentUser = response;
                     localStorage.setItem('user', JSON.stringify(response)); // Store user in localStorage
-                } else {
-                    alert("Invalid credentials");
                 }
             })
         );
-
     }
 }

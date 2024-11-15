@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+
 @Entity
 public class User {
 
     @Setter
     @Getter
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     private String id;
 
     @Getter
@@ -27,11 +28,10 @@ public class User {
     @Setter
     private String roles;
 
-    public User()
-    {}
+    public User() {
+    }
 
-    public User(String id, String email, String password, String roles)
-    {
+    public User(String id, String email, String password, String roles) {
         this.id = id;
         this.email = email;
         this.password = password;

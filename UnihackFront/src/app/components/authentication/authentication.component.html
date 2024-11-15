@@ -23,7 +23,7 @@
                 <p class="heading">Signup</p>
                 <input class="input" placeholder="Email" type="email" [(ngModel)]="user.email" name="email">
                 <input class="input" placeholder="Password" type="password" [(ngModel)]="user.password" name="password">
-                <button class="btn text-neutral" (click)="signup()">Submit</button>
+                <button class="btn text-neutral" type="button" (click)="signup()"><p class="text-neutral">Submit</p></button>
                 <button type="button" class="btn" (click)="toggleForm()"><p class="text-neutral">Switch to Login</p>
                 </button>
             </form>

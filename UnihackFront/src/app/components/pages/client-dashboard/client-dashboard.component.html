@@ -7,99 +7,143 @@
 
         <div class="flex flex-col lg:flex-row gap-8 mb-12">
             <!-- User Details Card -->
-<div class="card bg-base-100 shadow-xl w-full lg:w-2/5 relative">
-    <div class="card-body">
-        <h3 class="card-title text-2xl mb-4">User Details</h3>
-        <div class="space-y-2">
-            <p><span class="font-semibold">Email:</span> {{this.user?.email}}</p>
-        </div>
-    </div>
-    <!-- Open the modal using ID.showModal() method -->
-    <button class="btn btn-primary absolute top-4 right-4" onclick="caseModal.showModal()">Add Case</button>
-    <dialog id="caseModal" class="modal">
-        <div class="modal-box">
-            <h3 class="text-lg font-bold">Add New Case</h3>
-            <form #caseForm="ngForm" (ngSubmit)="addCase(caseForm)">
-                <div class="py-4">
-                    <label class="block mb-2">Case Name:</label>
-                    <input type="text" class="input input-bordered w-full" name="caseName" ngModel required />
-                </div>
-                <div class="py-4">
-                    <label class="block mb-2">Case Description:</label>
-                    <textarea class="textarea textarea-bordered w-full" name="caseDescription" ngModel required></textarea>
-                </div>
-
-                <div class="py-4">
-                    <label class="block mb-2">Case Category:</label>
-                    <input type="text" class="input input-bordered w-full" name="caseCategory" ngModel required />
-                </div>
-                <div class="py-4">
-                    <label class="block mb-2">Case Date:</label>
-                    <input type="date" class="input input-bordered w-full" name="caseDate" ngModel required />
-                </div>
-                <div class="py-4">
-                    <label class="block mb-2">Case Result:</label>
-                    <input disabled type="text" class="input input-bordered w-full" name="caseResult" ngModel required />
-                </div>
-                <div class="modal-action">
-                    <button type="submit" class="btn btn-primary">Add Case</button>
-                </div>
-            </form>
-        </div>
-    </dialog>
-</div>
-            <div class="card bg-base-100 shadow-xl w-full lg:w-3/5">
+            <div class="card bg-base-100 shadow-xl w-full lg:w-2/5 relative">
                 <div class="card-body">
-                    <h3 class="card-title text-2xl mb-4">Latest Health Report</h3>
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                        <div>
-                            <p><span class="font-semibold">Date:</span> Nov 8, 2024</p>
-                            <p><span class="font-semibold">Summary:</span> Stable health condition. No major concerns.</p>
-                        </div>
-                        <button class="btn btn-primary mt-4 sm:mt-0">View Details</button>
+                    <h3 class="card-title text-2xl mb-4">User Details</h3>
+                    <div class="space-y-2">
+                        <p><span class="font-semibold">Email:</span> {{ this.user.email }}</p>
                     </div>
-                    <div class="divider"></div>
-                    <p><span class="font-semibold">Next Appointment:</span> Nov 15, 2024</p>
+                </div>
+                <!-- Open the modal using ID.showModal() method -->
+                <button class="btn btn-primary absolute top-4 right-4" onclick="caseModal.showModal()">Add Case</button>
+                <dialog id="caseModal" class="modal z-10">
+                    <div class="modal-box z-10">
+                        <h3 class="text-lg font-bold">Add New Case</h3>
+                        <form #caseForm="ngForm" (ngSubmit)="addCase(caseForm)" class="z-10">
+                            <div class="py-4">
+                                <label class="block mb-2">Case Name:</label>
+                                <input type="text" class="input input-bordered w-full" name="caseName" ngModel
+                                       required/>
+                            </div>
+                            <div class="py-4">
+                                <label class="block mb-2">Case Description:</label>
+                                <textarea class="textarea textarea-bordered w-full" name="caseDescription" ngModel
+                                          required></textarea>
+                            </div>
+                            <div class="py-4">
+                                <label class="block mb-2">Case Category:</label>
+                                <input type="text" class="input input-bordered w-full" name="caseCategory" ngModel
+                                       required/>
+                            </div>
+                            <div class="py-4">
+                                <label class="block mb-2">Case Date:</label>
+                                <input type="date" class="input input-bordered w-full" name="caseDate" ngModel
+                                       required/>
+                            </div>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Doctor</span>
+                                </label>
+                                <select class="select select-bordered w-full max-w-xs" name="caseDoctor"
+                                        [(ngModel)]="doctor.email">
+                                    <option *ngFor="let doctor of doctors" [value]="doctor.email">
+                                        {{ doctor.email }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="modal-action">
+                                <button type="submit" class="btn btn-primary" onClick="caseModal.close()">Add Case
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="caseModal.close()">Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
+            </div>
+            <div class="w-full lg:w-3/5 text-accent">
+                <!-- Upcoming Appointments -->
+                <div class="card" [ngClass]="appointments.length > 0 ? 'bg-primary' : 'bg-gray-100'">
+                    <div class="card-body">
+                        <h3 class="card-title text-2xl mb-4">Upcoming Appointments</h3>
+
+                        <!-- Display message based on the number of appointments -->
+                        <div *ngIf="appointments.length > 0; else noAppointments">
+                            <p>You have {{ appointments.length }} upcoming appointment(s)!</p>
+                            <div *ngFor="let appointment of appointments" class="my-4">
+                                <p><span class="font-semibold">Name:</span> {{ appointment.appointmentName }}</p>
+                                <p><span
+                                    class="font-semibold">Description:</span> {{ appointment.appointmentDescription }}
+                                </p>
+                                <p><span class="font-semibold">Case ID:</span> {{ appointment.parentCase.id }}</p>
+                            </div>
+                            <div class="card flex flex-row">
+                                <div>
+                                    <button class="btn btn-primary mt-4">Reschedule</button>
+                                    <button class="btn btn-secondary mt-4 ml-4">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Display when there are no appointments -->
+                        <ng-template #noAppointments>
+                            <p>No upcoming appointments.</p>
+                        </ng-template>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Additional Info Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Upcoming Appointments -->
-            <div class="card bg-base-100 shadow-xl">
+            <!-- Latest Health Report -->
+            <div *ngIf="latestReport" class="card bg-neutral">
                 <div class="card-body">
-                    <h3 class="card-title text-2xl mb-4">Upcoming Appointments</h3>
-                    <div class="space-y-2">
-                        <p><span class="font-semibold">Date:</span> Nov 15, 2024</p>
-                        <p><span class="font-semibold">Doctor:</span> Dr. Sarah Lee</p>
-                        <p><span class="font-semibold">Location:</span> Health Clinic, Room 202</p>
+                    <h3 class="card-title text-2xl mb-4">Latest Health Report</h3>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                        <div>
+                            <p><span class="font-semibold">Date:</span> {{ latestReport.reportDate }}</p>
+                            <p><span class="font-semibold">Summary:</span> {{ latestReport.reportDescription || 'No details available' }}</p>
+                            <p *ngIf="latestReport.parentCase">
+                                <span class="font-semibold">Related Case:</span> {{ latestReport.parentCase.caseName }}
+                            </p>
+                        </div>
                     </div>
+                    <div class="divider"></div>
                 </div>
             </div>
 
-            <!-- Recent Activity -->
+
             <div class="card bg-base-100 shadow-xl">
                 <div class="card-body">
                     <h3 class="card-title text-2xl mb-4">Recent Activity</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li>Blood pressure checked on Nov 3, 2024</li>
-                        <li>Prescription updated on Oct 25, 2024</li>
-                        <li>Follow-up scheduled on Nov 15, 2024</li>
-                    </ul>
+
+                    <!-- Check if latestReport is present -->
+                    <ng-container *ngIf="latestReport; else noActivity">
+                        <p><span class="font-semibold">Report Name:</span> {{ latestReport.reportName }}</p>
+                        <p><span class="font-semibold">Description:</span> {{ latestReport.reportDescription }}</p>
+                        <p><span class="font-semibold">Priority:</span> {{ latestReport.reportPriority }}</p>
+                        <p><span class="font-semibold">Date:</span> {{ latestReport.reportDate | date: 'MMMM d, y' }}</p>
+                    </ng-container>
+
+                    <!-- Fallback message if latestReport is null -->
+                    <ng-template #noActivity>
+                        <p class="text-gray-500">No recent activity</p>
+                    </ng-template>
                 </div>
             </div>
 
-            <!-- Notifications or Alerts -->
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <h3 class="card-title text-2xl mb-4">Notifications</h3>
-                    <ul class="list-disc list-inside space-y-2">
-                        <li>Your prescription for blood pressure medication is ready for pickup.</li>
-                        <li>Your annual health checkup is due next month.</li>
-                    </ul>
-                </div>
-            </div>
+<!--            &lt;!&ndash; Notifications or Alerts &ndash;&gt;-->
+<!--            <div class="card bg-base-100 shadow-xl">-->
+<!--                <div class="card-body">-->
+<!--                    <h3 class="card-title text-2xl mb-4">Notifications</h3>-->
+<!--                    <ul class="list-disc list-inside space-y-2">-->
+<!--                        <li>Your prescription for blood pressure medication is ready for pickup.</li>-->
+<!--                        <li>Your annual health checkup is due next month.</li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
         <div class="mt-12">
@@ -109,17 +153,135 @@
                 <div *ngFor="let case of cases" class="card bg-base-100 shadow-xl mb-4">
                     <div class="card-body">
                         <!-- Case Title -->
-                        <h3 class="card-title text-xl">{{ case.caseName }}</h3>
+                        <div class="row-auto">
+                            <h3 class="card-title text-xl">{{ case.caseName }}</h3>
+                            <button class="btn btn-primary" (click)="openModal(case.id)">Add Report</button>
+                            <!-- Modal Background -->
+                            <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center m-4"
+                                 *ngIf="isModalOpen">
+                                <div class="modal modal-open">
+                                    <!-- Modal Box -->
+                                    <div class="modal-box w-96">
+                                        <h2 class="text-2xl font-bold mb-4">Add Report for {{ case.caseName }}</h2>
+                                        <form (ngSubmit)="addReport()" class="space-y-4" name="AddReport">
+                                            <!-- Report Content -->
+
+                                            <div class="form-control">
+                                                <label class="label">
+                                                    <span class="label-text
+                                                    ">Report Name</span>
+                                                </label>
+                                                <input class="input input-bordered w-full"
+                                                       [(ngModel)]="report.reportName" name="reportName" required>
+                                            </div>
+
+                                            <div class="form-control">
+                                                <label class="label">
+                                                    <span class="label-text">Report Content</span>
+                                                </label>
+                                                <textarea class="textarea textarea-bordered w-full"
+                                                          [(ngModel)]="report.reportDescription" name="reportContent"
+                                                          required rows="5"></textarea>
+                                            </div>
+
+                                            <!-- Report Date -->
+                                            <div class="form-control">
+                                                <label class="label">
+                                                    <span class="label-text">Report Date</span>
+                                                </label>
+                                                <input type="date" class="input input-bordered w-full"
+                                                       [(ngModel)]="report.reportDate" name="reportDate" required/>
+                                            </div>
+
+                                            <div class="form-control">
+                                                <label class="label">
+                                                    <span class="label-text">Report Urgency</span>
+                                                </label>
+                                                <select class="select select-bordered w-full max-w-xs"
+                                                        [(ngModel)]="report.reportPriority" name="priority">
+                                                    <option>Low</option>
+                                                    <option>Medium</option>
+                                                    <option>High</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Modal Actions -->
+                                            <div class="modal-action">
+                                                <button type="button" class="btn btn-secondary" (click)="closeModal()">
+                                                    Cancel
+                                                </button>
+                                                <button type="submit" class="btn btn-primary"
+                                                        [disabled]="!report.reportDescription || !report.reportDate">Add
+                                                    Report
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn bg-primary m-4" (click)="openAppointmentModal()">Request Appointment
+                            </button>
+                            <!-- Modal Background -->
+                            <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+                                 *ngIf="appointmentModalOpen">
+                                <div class="modal modal-open">
+                                    <!-- Modal Box -->
+                                    <div class="modal-box w-96">
+                                        <h2 class="text-2xl font-bold mb-4">Add Report for {{ case.caseName }}</h2>
+                                        <form (ngSubmit)="requestAppointment(case)" class="space-y-4" name="AddReport">
+                                            <!-- Report Content -->
+                                            <div class="form-control">
+                                                <label class="label">
+                                                    <span class="label-text">Appointment Name</span>
+                                                </label>
+                                                <input class="input input-bordered w-full"
+                                                       [(ngModel)]="newAppointment.appointmentName" name="reportContent"
+                                                       required>
+                                                <label class="label">Appointment Date</label>
+                                                <input type="date" name="appointmentDate" [(ngModel)]="newAppointment.appointmentDate">
+
+                                            </div>
+
+                                            <div class="form-control">
+                                                <label class="label">
+                                        <span class="label-text
+                                        ">Appointment Description</span>
+                                                </label>
+                                                <textarea class="textarea textarea-bordered w-full"
+                                                          [(ngModel)]="newAppointment.appointmentDescription"
+                                                          name="reportDescription" required rows="5"></textarea>
+                                            </div>
+
+                                            <!-- Modal Actions -->
+                                            <div class="modal-action">
+                                                <button type="button" class="btn btn-secondary"
+                                                        (click)="closeAppointmentModal()">Cancel
+                                                </button>
+                                                <button type="submit" class="btn btn-primary m-4"
+                                                        [disabled]="!newAppointment.appointmentName || !newAppointment.appointmentDescription">
+                                                    Request Appointment!
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Expandable Panel for Reports -->
                         <details>
                             <summary class="font-semibold text-primary cursor-pointer">View Reports</summary>
                             <div class="mt-4 space-y-2">
                                 <div *ngIf="case.reports && case.reports.length > 0; else noReports">
-                                    <div *ngFor="let report of case.reports">
-                                        <p><span class="font-semibold">Date:</span> {{ report.reportDate }}</p>
-                                        <p><span class="font-semibold">Summary:</span> {{ report.reportDescription }}</p>
-                                        <div class="divider"></div>
+                                    <div *ngFor="let report of case.reports" class="report-card p-4 border border-gray-300 rounded-2xl my-4 shadow-sm">
+                                        <div class="flex flex-row left-0 p-1 w-max rounded-xl">
+                                            <p class="text-sm m-auto text-white flex-row items-center justify-center">{{ report.reportDate}}</p>
+                                        </div>
+                                        <div class="mt-2">
+                                            <p class="text-gray-600"><span class="font-semibold">Summary:</span> {{ report.reportDescription || 'No details available' }}</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <ng-template #noReports>

@@ -1,0 +1,269 @@
+<div class="container mx-auto p-8 space-y-8">
+
+    <!-- Header Section -->
+    <div class="card bg-base-100 shadow-xl w-2/5 md:w-2/5 mx-auto text-center">
+        <div class="card-body">
+            <h1 class="text-4xl font-bold text-primary">Doctor Dashboard</h1>
+            <p class="text-xl text-neutral">{{ doctor.email }}</p>
+        </div>
+    </div>
+
+    <!-- Case List Section -->
+    <div class="bg-base-100 p-4 justify-center m-auto rounded-lg shadow-xl w-3/4">
+        <h2 class="text-2xl font-bold text-center mb-4 justify-center">Assigned Cases</h2>
+        <div class="grid gap-6 grid-cols-1 justify-center m-auto md:grid-cols-2 lg:grid-cols-3">
+            <div *ngFor="let caseItem of cases"
+                 class="card bg-base-200 hover:bg-base-300 transition-colors duration-300 cursor-pointer"
+                 (click)="onCaseSelect(caseItem)">
+                <div class="card-body">
+                    <h3 class="card-title text-lg sm:text-xl md:text-2xl lg:text-3xl">{{ caseItem.caseName }}</h3>
+                    <p class="text-sm sm:text-base md:text-lg">{{ caseItem.caseDescription }}</p>
+                    <div class="card-actions justify-end">
+                        <span class="badge badge-primary">{{ caseItem.caseStatus }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Details Section -->
+    <div *ngIf="selectedCase" class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="text-2xl font-bold mb-4">Case Details: {{ selectedCase.caseName }}</h2>
+
+            <div class="container flex-row flex justify-between">
+                <div class="space-y-2">
+                    <p><span class="font-semibold">Description:</span> {{ selectedCase.caseDescription }}</p>
+                    <p><span class="font-semibold">Status:</span> {{ selectedCase.caseStatus }}</p>
+                    <p><span class="font-semibold">Category:</span> {{ selectedCase.caseCategory }}</p>
+                    <p><span class="font-semibold">Date:</span> {{ selectedCase.caseDate | date }}</p>
+                </div>
+
+
+                <div class="justify-between gap-1">
+                    <button class="btn text-white m-1" (click)="openSummariseModal()"
+                            style="background: rgb(238,174,202);
+background: linear-gradient(47deg, rgba(238,174,202,1) 0%, rgba(224,120,193,1) 20%, rgba(170,100,242,1) 53%, rgba(105,57,223,1) 72%, rgba(104,77,194,1) 86%, rgba(148,187,233,1) 100%);">
+                        AI Prescription
+                    </button>
+                    <button class="btn bg-primary text-accent m-1" (click)="openModal()">Request Appointment</button>
+                </div>
+
+            </div>
+
+            <!-- Display Case Reports Section -->
+            <div class="divider my-4"></div>
+            <h3 class="text-xl font-semibold mb-4">Case Reports</h3>
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div *ngFor="let report of selectedCase.reports"
+                     [ngClass]="{
+             'bg-neutral': report.reportPriority === 'Low',
+             'bg-accent': report.reportPriority === 'Medium',
+             'bg-primary': report.reportPriority === 'High'
+         }"
+                     class="card hover:bg-base-300 transition-colors duration-300">
+                    <div class="card-body">
+                        <h3 class="card-title text-xl">Name: {{ report.reportName }}</h3>
+                        <p>Description: {{ report.reportDescription }}</p>
+
+                        <!-- Display Report Priority as Text -->
+                        <p class="font-semibold">Priority: {{ report.reportPriority }}</p>
+
+                        <div class="card-actions justify-end">
+                            <span class="badge badge-primary">{{ report.reportDate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Modal Background -->
+            <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+                 *ngIf="isModalOpen">
+                <div class="modal modal-open">
+                    <!-- Modal Box -->
+                    <div class="modal-box w-96">
+                        <h2 class="text-2xl font-bold mb-4">Add Report for {{ selectedCase.caseName }}</h2>
+                        <form (ngSubmit)="requestAppointment()" class="space-y-4" name="AddReport">
+                            <!-- Report Content -->
+                            <div class="form-control justify-between">
+                                <label class="label">
+                                    <span class="label-text">Appointment Name</span>
+                                </label>
+                                <input class="input input-bordered w-full"
+                                       [(ngModel)]="newAppointment.appointmentName" name="reportContent" required>
+
+                                <label class="label">
+                                    <span class="label-text"> Appointment Date</span>
+                                </label>
+                                <input type="date" class="input input-bordered" name="appointmentDate">
+                            </div>
+
+                            <!-- Report Description -->
+                            <div class="form-control">
+                                <label class="label">
+                                        <span class="label-text
+                                        ">Appointment Description</span>
+                                </label>
+                                <textarea class="textarea textarea-bordered w-full"
+                                          [(ngModel)]="newAppointment.appointmentDescription"
+                                          name="reportDescription" required rows="5"></textarea>
+                            </div>
+
+                            <!-- Modal Actions -->
+                            <div class="modal-action">
+                                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary"
+                                        [disabled]="!newAppointment.appointmentName || !newAppointment.appointmentDescription">
+                                    Request Appointment!
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Summarising Case -->
+            <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+                 *ngIf="isSummariseModalOpen">
+                <div class="modal modal-open fixed h-full z-50 overflow-y-auto">
+                    <!-- Modal Box -->
+                    <div class="modal-box w-11/12">
+                        <h2 class="text-2xl font-bold mb-4">Summarise Case: {{ selectedCase.caseName }}</h2>
+                        <form (ngSubmit)="summariseCase()" class="space-y-4" name="SummariseCase">
+                            <!-- Report Content -->
+                            <div class="form-control justify-between">
+                                <label class="label">
+                                        <span class="label-text
+                                        ">Case Summary</span>
+                                </label>
+                                <textarea class="textarea textarea-bordered w-full"
+                                          [(ngModel)]="newSummary" name="summaryContent" required rows="5">
+                                        {{newSummary}}
+                                    </textarea>
+                            </div>
+
+                            <div class="form-control justify-between">
+                                <label class="label">
+                                    <span class="label-text
+                                    ">Prescription</span>
+                                </label>
+                                <textarea class="textarea textarea-bordered w-full"
+                                          [(ngModel)]="newPrescription" name="prescriptionContent" required rows="5">
+                                        {{newPrescription}}
+                                    </textarea>
+                            </div>
+
+                            <div class="modal-action justify-center flex-col">
+                                <div class="flex">
+                                    <button type="submit" class="btn btn-primary m-1"
+                                            style="background: rgb(238,174,202);
+                                            background: linear-gradient(47deg, rgba(238,174,202,1) 0%, rgba(224,120,193,1) 20%, rgba(170,100,242,1) 53%, rgba(105,57,223,1) 72%, rgba(104,77,194,1) 86%, rgba(148,187,233,1) 100%);"
+                                            [disabled]="newSummary">
+                                        Summarise Case!
+                                    </button>
+                                    <button class="btn btn-primary m-1 text-black" type="button"
+                                            (click)="createPrescription()"
+                                            style="background: rgb(148,187,233);
+background: linear-gradient(47deg, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 39%, rgba(238,174,174,1) 76%, rgba(238,16,16,1) 100%);"
+                                            [disabled]="!newSummary"
+                                    >
+                                        Generate Prescription
+                                    </button>
+                                </div>
+                                <div class="flex">
+                                    <button type="button" class="btn btn-secondary m-1" (click)="closeSummariseModal()">
+                                        Close
+                                    </button>
+                                    <button type="button" class="btn btn-primary m-1" (click)="sendToUserEmail()">Send
+                                        to
+                                        patient Email!
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Case Status Section -->
+            <div class="divider my-4"></div>
+            <h3 class="text-xl font-semibold mb-4">Update Case Status</h3>
+            <div class="form-control w-full max-w-md">
+                <label class="label">
+                    <span class="label-text">Select Status</span>
+                </label>
+                <select class="select select-bordered" [(ngModel)]="selectedCase.caseStatus">
+                    <option value="NEW">New</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                </select>
+                <div class="">
+                    <label class="label">
+                        <span class="label-text"> Case Conclusion </span>
+                    </label>
+                    <textarea class="textarea w-full shadow-xl bg-neutral"
+                              [(ngModel)]="selectedCase.caseResult"
+                              [disabled]="selectedCase.caseStatus !== 'COMPLETED'">
+        </textarea>
+                </div>
+            </div>
+            <div class="card-actions justify-end mt-4">
+                <button class="btn btn-primary" (click)="updateCase()">
+                    Update
+                </button>
+                <button class="btn btn-accent" (click)="openEmailModal()"
+                        [disabled]="selectedCase.caseStatus !== 'COMPLETED'">
+                    Send case Details to patient Email
+                </button>
+            </div>
+
+            <!-- Email Modal -->
+            <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+                 *ngIf="isEmailModalOpen">
+                <div class="modal modal-open fixed h-full z-50 overflow-y-auto">
+                    <!-- Modal Box -->
+                    <div class="modal-box w-11/12">
+                        <h2 class="text-2xl font-bold mb-4">Review Case Details for {{ selectedCase.caseName }}</h2>
+
+                        <!-- Case Details -->
+                        <div class="space-y-4">
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">Case Name</span></label>
+                                <p class="text-base font-semibold">{{ selectedCase.caseName }}</p>
+                            </div>
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">Case Description</span></label>
+                                <p class="text-base">{{ selectedCase.caseDescription }}</p>
+                            </div>
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">Case Category</span></label>
+                                <p class="text-base">{{ selectedCase.caseCategory }}</p>
+
+                                <label class="label"><span class="label-text">
+                                    Case Summary</span></label>
+                                <textarea class="textarea">{{ this.newSummary }}</textarea>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text">Conclusion</span></label>
+                                    <textarea class="textarea w-full shadow-xl bg-neutral"
+                                              [(ngModel)]="selectedCase.caseResult"
+                                              [disabled]="selectedCase.caseStatus !== 'COMPLETED'">
+                                    </textarea>
+                                </div>
+                            </div>
+
+                            <!-- Modal Actions -->
+                            <div class="modal-action flex justify-center mt-6">
+                                <button class="btn btn-secondary m-1" (click)="closeEmailModal()">Close</button>
+                                <button class="btn btn-primary m-1" (click)="sendToUserEmail()">Confirm & Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

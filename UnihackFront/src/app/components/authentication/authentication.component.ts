@@ -42,9 +42,14 @@ export class AuthenticationComponent implements OnInit {
     login() {
         this.authService.login(this.user).subscribe(response => {
             if (response) {
-                this.router.navigate(['dashboard']).then(() => console.log('Navigated to dashboard'));
-            } else {
-                alert("Wrong credentials");
+                switch (response.roles) {
+                    case 'DOCTOR':
+                        this.router.navigate(['doctor-dashboard']).then(() => console.log('Navigated to doctor dashboard'));
+                        break;
+                    case 'PATIENT':
+                        this.router.navigate(['dashboard']).then(() => console.log('Navigated to client dashboard'));
+                        break;
+                }
             }
         });
     }
@@ -53,8 +58,7 @@ export class AuthenticationComponent implements OnInit {
         this.authService.signUp(this.user).subscribe(response => {
             if (response) {
                 alert("User signed up successfully");
-                this.router.navigate(['dashboard']).then(() => console.log('Navigated to dashboard'));
-            }
+                this.router.navigate(['login']).then(() => console.log('Navigated to login'));}
         });
     }
 }
